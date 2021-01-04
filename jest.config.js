@@ -1,17 +1,16 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { pathsToModuleNameMapper } = require('ts-jest/utils');
-const { compilerOptions } = require('./tsconfig.json');
-/* eslint-enable @typescript-eslint/no-var-requires */
-
 module.exports = {
-  collectCoverageFrom: ['<rootDir>/src/**/*.ts'],
+  roots: ['<rootDir>/tests'],
+  collectCoverageFrom: ['<rootDir>/src/**/*.ts', '!<rootDir>/src/main/**'],
   coverageDirectory: 'coverage',
+  coverageProvider: 'babel',
   coverageReporters: ['text-summary', 'lcov'],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
-    prefix: '<rootDir>/src/',
-  }),
+  transform: {
+    '.+\\.ts$': 'ts-jest',
+  },
+  moduleNameMapper: {
+    '@/tests/(.*)': '<rootDir>/tests/$1',
+    '@/(.*)': '<rootDir>/src/$1',
+  },
   preset: 'ts-jest',
-  roots: ['<rootDir>/src'],
   testEnvironment: 'node',
-  testMatch: ['**/*.spec.ts'],
 };
