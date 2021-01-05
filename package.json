@@ -5,6 +5,8 @@
   "author": "Jean Melo <jeandejavu@hotmail.com>",
   "license": "MIT",
   "scripts": {
+    "start": "node dist/main/server.js",
+    "build": "rimraf dist && tsc -p tsconfig-build.json",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:complete": "jest --clearCache && yarn test",
     "test:clear": "jest --clearCache",
@@ -52,6 +54,7 @@
     "express": "^4.17.1",
     "module-alias": "^2.2.2",
     "mongodb": "^3.6.3",
+    "rimraf": "^3.0.2",
     "validator": "^13.5.2"
   }
 }
