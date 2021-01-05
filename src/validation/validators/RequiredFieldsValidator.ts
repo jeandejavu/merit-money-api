@@ -9,6 +9,6 @@ export class RequiredFieldValidator implements IValidation {
     if (!input[this.fieldName]) {
       return new MissingParamError(this.fieldName);
     }
-    return false;
+    return true;
   }
 }
