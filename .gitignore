@@ -2,3 +2,7 @@ node_modules
 dist
 coverage
 globalConfig.json
+.env
+data
+!src/data
+!tests/data
