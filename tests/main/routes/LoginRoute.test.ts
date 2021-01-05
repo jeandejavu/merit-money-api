@@ -28,7 +28,7 @@ describe('Login Routes', () => {
           name: 'any_name',
           email: 'any.mail@mail.com',
           password: '123',
-          passwordConfirmation: '123',
+          password_confirmation: '123',
         })
         .expect(204);
 
@@ -38,7 +38,7 @@ describe('Login Routes', () => {
           name: 'any_name',
           email: 'any.mail@mail.com',
           password: '123',
-          passwordConfirmation: '123',
+          password_confirmation: '123',
         })
         .expect(403);
     });

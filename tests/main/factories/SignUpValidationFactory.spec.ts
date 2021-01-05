@@ -15,11 +15,16 @@ describe('SignUpValidation Factory', () => {
     makeSignUpValidation();
     const validations: IValidation[] = [];
     // eslint-disable-next-line no-restricted-syntax
-    for (const field of ['name', 'email', 'password', 'passwordConfirmation']) {
+    for (const field of [
+      'name',
+      'email',
+      'password',
+      'password_confirmation',
+    ]) {
       validations.push(new RequiredFieldValidator(field));
     }
     validations.push(
-      new CompareFieldsValidator('password', 'passwordConfirmation'),
+      new CompareFieldsValidator('password', 'password_confirmation'),
     );
     validations.push(new EmailValidator('email', new EmailValidatorAdapter()));
     expect(ValidationComposite).toHaveBeenCalledWith(validations);
