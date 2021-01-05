@@ -52,4 +52,24 @@ describe('DbAddAccount Usecase', () => {
     const promise = sut.add(mockAddAccountParams());
     await expect(promise).rejects.toThrow();
   });
+
+  test('Should call AddAccountRepository with correct values', async () => {
+    const { sut, addAccountRepositorySpy, hasherSpy } = makeSut();
+    const addAccountParams = mockAddAccountParams();
+    await sut.add(addAccountParams);
+    expect(addAccountRepositorySpy.params).toEqual({
+      name: addAccountParams.name,
+      email: addAccountParams.email,
+      password: hasherSpy.digest,
+    });
+  });
+
+  test('Should throw if AddAccountRepository throws', async () => {
+    const { sut, addAccountRepositorySpy } = makeSut();
+    jest
+      .spyOn(addAccountRepositorySpy, 'add')
+      .mockImplementationOnce(throwError);
+    const promise = sut.add(mockAddAccountParams());
+    await expect(promise).rejects.toThrow();
+  });
 });
