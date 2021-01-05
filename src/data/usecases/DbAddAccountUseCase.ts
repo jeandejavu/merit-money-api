@@ -1,11 +1,11 @@
-import { AddAccountUseCase } from '@/domain/usecases';
+import { IAddAccountUseCase } from '@/domain/usecases';
 import {
   IHasher,
   IAddAccountRepository,
   ICheckAccountByEmailRepository,
 } from '@/data/protocols';
 
-export class DbAddAccountUseCase implements AddAccountUseCase {
+export class DbAddAccountUseCase implements IAddAccountUseCase {
   constructor(
     private readonly hasher: IHasher,
     private readonly AddAccountUseCaseRepository: IAddAccountRepository,
@@ -13,8 +13,8 @@ export class DbAddAccountUseCase implements AddAccountUseCase {
   ) {}
 
   async add(
-    accountData: AddAccountUseCase.Params,
-  ): Promise<AddAccountUseCase.Result> {
+    accountData: IAddAccountUseCase.Params,
+  ): Promise<IAddAccountUseCase.Result> {
     const exists = await this.checkAccountByEmailRepository.checkByEmail(
       accountData.email,
     );
