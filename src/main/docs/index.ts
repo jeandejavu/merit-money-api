@@ -1,3 +1,7 @@
+import paths from './paths';
+import components from './components';
+import schemas from './schemas';
+
 export default {
   openapi: '3.0.0',
   info: {
@@ -17,4 +21,13 @@ export default {
       description: 'Servidor Principal',
     },
   ],
+  tags: [
+    {
+      name: 'Login',
+      description: 'APIs relacionadas a Login',
+    },
+  ],
+  paths,
+  components,
+  schemas,
 };
