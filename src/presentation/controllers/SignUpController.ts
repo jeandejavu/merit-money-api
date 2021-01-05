@@ -21,7 +21,7 @@ export class SignUpController implements IController {
   async handle(request: SignUpController.Request): Promise<IHttpResponse> {
     try {
       const error = this.validation.validate(request);
-      if (error) {
+      if (error instanceof Error) {
         return badRequest(error);
       }
       const { name, email, password } = request;
