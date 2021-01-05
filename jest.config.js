@@ -11,6 +11,6 @@ module.exports = {
     '@/tests/(.*)': '<rootDir>/tests/$1',
     '@/(.*)': '<rootDir>/src/$1',
   },
-  preset: 'ts-jest',
+  preset: '@shelf/jest-mongodb',
   testEnvironment: 'node',
 };

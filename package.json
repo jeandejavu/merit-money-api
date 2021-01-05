@@ -15,6 +15,7 @@
     "test:ci": "yarn test -- --coverage"
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.2.3",
     "@types/bcrypt": "^3.0.0",
     "@types/faker": "^5.1.5",
     "@types/jest": "^26.0.19",
