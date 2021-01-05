@@ -1,18 +1,11 @@
-import faker from 'faker';
 import { throwError } from '@/tests/utils';
 import { DbAddAccountUseCase } from '@/data/usecases';
-import { IAddAccountRepository } from '@/data/protocols/db';
+import { mockAddAccountParams } from '@/tests/domain/mocks';
 import {
   AddAccountRepositorySpy,
   CheckAccountByEmailRepositorySpy,
 } from '../mocks/db/account';
 import { HasherSpy } from '../mocks/cryptography';
-
-const mockAddAccountParams = (): IAddAccountRepository.Params => ({
-  name: faker.name.findName(),
-  email: faker.internet.email(),
-  password: faker.internet.password(),
-});
 
 type SutTypes = {
   sut: DbAddAccountUseCase;
