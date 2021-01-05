@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node dist/main/server.js",
-    "build": "rimraf dist && tsc -p tsconfig-build.json",
+    "debug": "node --inspect --nolazy dist/main/server.js",
+    "build": "rimraf dist && tsc -p tsconfig.build.json",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:complete": "jest --clearCache && yarn test",
     "test:clear": "jest --clearCache",
