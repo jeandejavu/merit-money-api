@@ -8,7 +8,7 @@ export class ValidationComposite implements IValidation {
     // eslint-disable-next-line no-restricted-syntax
     for (const validation of this.validations) {
       const error = validation.validate(input);
-      if (error) {
+      if (error instanceof Error) {
         return error;
       }
     }

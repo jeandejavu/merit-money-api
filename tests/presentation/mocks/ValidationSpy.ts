@@ -5,8 +5,8 @@ export class ValidationSpy implements IValidation {
 
   input: any;
 
-  validate(input: any): Error {
+  validate(input: any): Error | boolean {
     this.input = input;
-    return this.error;
+    return this.error ?? true;
   }
 }
