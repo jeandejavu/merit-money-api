@@ -6,4 +6,5 @@
 
 > ## APIs
 
-1. [Cadastro](./requirements/signup.md)
+1. [Increver-se](./requirements/signup.md)
+2. [Funções](./requirements/role.md)
