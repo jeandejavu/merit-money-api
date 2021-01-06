@@ -3,6 +3,8 @@ import 'module-alias/register';
 import 'dotenv/config';
 import { MongoHelper } from '@/infra/db';
 
+process.env.TZ = 'Europe/London';
+
 MongoHelper.connect(process.env.MONGO_URL as string)
   .then(async () => {
     const app = (await import('./config/app')).default;
