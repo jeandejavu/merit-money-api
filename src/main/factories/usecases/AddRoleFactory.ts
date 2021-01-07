@@ -5,10 +5,10 @@ import { MongoAdapter } from '@/infra/id';
 
 export const makeDbAddRole = (): IAddRoleUseCase => {
   const mongoAdapter = new MongoAdapter();
-  const accountMongoRepository = new RoleMongoRepository();
+  const roleMongoRepository = new RoleMongoRepository();
   return new DbAddRoleUseCase(
-    accountMongoRepository,
-    accountMongoRepository,
+    roleMongoRepository,
+    roleMongoRepository,
     mongoAdapter,
   );
 };
