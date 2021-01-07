@@ -1,3 +1,5 @@
+import { RoleModel } from '@/domain/models';
+
 export interface IAddAccountRepository {
   add: (
     data: IAddAccountRepository.Params,
@@ -10,6 +12,7 @@ export namespace IAddAccountRepository {
     name: string;
     email: string;
     password: string;
+    account_role: RoleModel;
   };
   export type Result = boolean;
 }
