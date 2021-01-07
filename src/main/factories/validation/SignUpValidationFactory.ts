@@ -10,7 +10,13 @@ import { EmailValidatorAdapter } from '@/infra/validators';
 export const makeSignUpValidation = (): ValidationComposite => {
   const validations: IValidation[] = [];
   // eslint-disable-next-line no-restricted-syntax
-  for (const field of ['name', 'email', 'password', 'password_confirmation']) {
+  for (const field of [
+    'name',
+    'email',
+    'password',
+    'password_confirmation',
+    'account_role',
+  ]) {
     validations.push(new RequiredFieldValidator(field));
   }
   validations.push(
