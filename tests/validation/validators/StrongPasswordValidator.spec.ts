@@ -18,7 +18,7 @@ describe('RequiredField Validator', () => {
 
   test('Should not return if validation succeeds', () => {
     const sut = makeSut();
-    const error = sut.validate('GKB@oUkTxRm9');
+    const error = sut.validate({ [field]: 'GKB@oUkTxRm9' });
     expect(error).toBe(true);
   });
 });
