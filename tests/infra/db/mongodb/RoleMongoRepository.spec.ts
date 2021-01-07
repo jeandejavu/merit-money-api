@@ -1,6 +1,6 @@
 import { RoleMongoRepository, MongoHelper } from '@/infra/db';
 import { mockRoleModel } from '@/tests/domain/mocks';
-import { Collection } from 'mongodb';
+import { Collection, ObjectID } from 'mongodb';
 import faker from 'faker';
 
 const makeSut = (): RoleMongoRepository => {
@@ -59,6 +59,30 @@ describe('RoleMongoRepository', () => {
     test('Should return empty array when base is empty', async () => {
       const sut = makeSut();
       await expect(sut.list()).resolves.toHaveLength(0);
+    });
+  });
+
+  describe('checkById()', () => {
+    test('Should return true if id is valid', async () => {
+      const sut = makeSut();
+      const addRoleParams = mockRoleModel();
+      const { id, ...data } = addRoleParams;
+
+      await roleCollection.insertOne({ ...data, _id: new ObjectID(id) });
+      const exists = await sut.checkById(id);
+      expect(exists).toBe(true);
+    });
+
+    test('Should return false if id is not exists', async () => {
+      const sut = makeSut();
+      const exists = await sut.checkById(new ObjectID().toHexString());
+      expect(exists).toBe(false);
+    });
+
+    test('Should return false if invalid id', async () => {
+      const sut = makeSut();
+      const exists = await sut.checkById(faker.random.uuid());
+      expect(exists).toBe(false);
     });
   });
 });
