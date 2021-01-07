@@ -1,3 +1,5 @@
+import { RoleModel } from '../models';
+
 export interface IAddAccountUseCase {
   add: (
     account: IAddAccountUseCase.Params,
@@ -10,6 +12,7 @@ export namespace IAddAccountUseCase {
     name: string;
     email: string;
     password: string;
+    account_role: RoleModel;
   };
 
   export type Result = boolean;
