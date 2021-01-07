@@ -3,6 +3,7 @@ import {
   IAddAccountRepository,
   ICheckAccountByEmailRepository,
 } from '@/data/protocols/db';
+import { ObjectID } from 'mongodb';
 
 export class AccountMongoRepository
   implements IAddAccountRepository, ICheckAccountByEmailRepository {
@@ -10,7 +11,13 @@ export class AccountMongoRepository
     data: IAddAccountRepository.Params,
   ): Promise<IAddAccountRepository.Result> {
     const accountCollection = await MongoHelper.getCollection('accounts');
-    const result = await accountCollection.insertOne(data);
+
+    const { account_role, ...rest } = data;
+
+    const result = await accountCollection.insertOne({
+      ...rest,
+      role_id: new ObjectID(account_role.id),
+    });
     return result.ops[0] !== null;
   }
 
