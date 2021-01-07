@@ -1,5 +1,5 @@
 export * from './ServerError';
-export * from './EmailInUseError';
+export * from '@/domain/errors';
 export * from './InvalidParamError';
 export * from './MissingParamError';
 export * from './FieldAlreadyExists';
