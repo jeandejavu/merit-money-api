@@ -10,6 +10,7 @@ import {
   forbidden,
   noContent,
 } from '@/presentation/helpers';
+import { mockRoleModel } from '@/tests/domain/mocks';
 import { ValidationSpy, AddAccountSpy } from '@/tests/presentation/mocks';
 import { throwError } from '@/tests/utils';
 
@@ -22,6 +23,7 @@ const mockRequest = (): SignUpController.Request => {
     email: faker.internet.email(),
     password,
     password_confirmation: password,
+    account_role: mockRoleModel(),
   };
 };
 
@@ -58,6 +60,7 @@ describe('SignUp Controller', () => {
       name: request.name,
       email: request.email,
       password: request.password,
+      account_role: request.account_role,
     });
   });
 
