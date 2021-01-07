@@ -3,6 +3,7 @@ import { ObjectID } from 'mongodb';
 import {
   IAddRoleRepository,
   ICheckRoleByDescriptionRepository,
+  ICheckRoleByIdRepository,
   IListRolesRepository,
 } from '@/data/protocols/db';
 
@@ -10,7 +11,8 @@ export class RoleMongoRepository
   implements
     IAddRoleRepository,
     ICheckRoleByDescriptionRepository,
-    IListRolesRepository {
+    IListRolesRepository,
+    ICheckRoleByIdRepository {
   async add(
     data: IAddRoleRepository.Params,
   ): Promise<IAddRoleRepository.Result> {
@@ -29,6 +31,22 @@ export class RoleMongoRepository
     const role = await roleCollection.findOne(
       {
         description,
+      },
+      {
+        projection: {
+          _id: 1,
+        },
+      },
+    );
+    return role !== null;
+  }
+
+  async checkById(id: string): Promise<ICheckRoleByIdRepository.Result> {
+    if (!ObjectID.isValid(id)) return false;
+    const roleCollection = await MongoHelper.getCollection('roles');
+    const role = await roleCollection.findOne(
+      {
+        _id: new ObjectID(id),
       },
       {
         projection: {
