@@ -1,6 +1,6 @@
 import app from '@/main/config/app';
 import { MongoHelper } from '@/infra/db';
-
+import faker from 'faker';
 import { Collection } from 'mongodb';
 import request from 'supertest';
 
@@ -30,13 +30,15 @@ describe('Login Routes', () => {
 
   describe('POST /signup', () => {
     test('Should return 200 on signup and return 403 with account exists', async () => {
+      const password = `${faker.internet.password()}$`;
+
       await request(app)
         .post('/api/signup')
         .send({
           name: 'any_name',
           email: 'any.mail@mail.com',
-          password: '123',
-          password_confirmation: '123',
+          password,
+          password_confirmation: password,
           account_role,
         })
         .expect(204);
@@ -46,8 +48,8 @@ describe('Login Routes', () => {
         .send({
           name: 'any_name',
           email: 'any.mail@mail.com',
-          password: '123',
-          password_confirmation: '123',
+          password,
+          password_confirmation: password,
           account_role,
         })
         .expect(403);
