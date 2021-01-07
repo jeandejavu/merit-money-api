@@ -9,8 +9,9 @@ import {
   noContent,
   forbidden,
 } from '@/presentation/helpers';
-import { EmailInUseError } from '@/presentation/errors';
+import { CheckFieldError, EmailInUseError } from '@/presentation/errors';
 import { IAddAccountUseCase } from '@/domain/usecases';
+import { RoleModel } from '@/domain/models';
 
 export class SignUpController implements IController {
   constructor(
@@ -24,17 +25,19 @@ export class SignUpController implements IController {
       if (error instanceof Error) {
         return badRequest(error);
       }
-      const { name, email, password } = request;
+      const { name, email, password, account_role } = request;
       const isValid = await this.addAccount.add({
         name,
         email,
         password,
+        account_role,
       });
       if (!isValid) {
         return forbidden(new EmailInUseError());
       }
       return noContent();
     } catch (error) {
+      if (error instanceof CheckFieldError) return forbidden(error);
       return serverError(error);
     }
   }
@@ -47,5 +50,6 @@ export namespace SignUpController {
     email: string;
     password: string;
     password_confirmation: string;
+    account_role: RoleModel;
   };
 }
