@@ -47,4 +47,18 @@ describe('RoleMongoRepository', () => {
       expect(exists).toBe(false);
     });
   });
+
+  describe('list()', () => {
+    test('Should return roles', async () => {
+      const sut = makeSut();
+      const addRoleParams = mockRoleModel();
+      await roleCollection.insertOne(addRoleParams);
+      await expect(sut.list()).resolves.toHaveLength(1);
+    });
+
+    test('Should return empty array when base is empty', async () => {
+      const sut = makeSut();
+      await expect(sut.list()).resolves.toHaveLength(0);
+    });
+  });
 });
