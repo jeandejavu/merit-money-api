@@ -1,8 +1,8 @@
 import faker from 'faker';
 import { ObjectID } from 'mongodb';
-import { IAddRoleRepository } from '@/data/protocols';
+import { RoleModel } from '@/domain/models';
 
-export const mockRoleParams = (): IAddRoleRepository.Params => ({
+export const mockRoleModel = (): RoleModel => ({
   id: new ObjectID().toHexString(),
   description: faker.name.jobDescriptor(),
 });

@@ -1,5 +1,5 @@
 import { RoleMongoRepository, MongoHelper } from '@/infra/db';
-import { mockRoleParams } from '@/tests/domain/mocks';
+import { mockRoleModel } from '@/tests/domain/mocks';
 import { Collection } from 'mongodb';
 import faker from 'faker';
 
@@ -26,7 +26,7 @@ describe('RoleMongoRepository', () => {
   describe('add()', () => {
     test('Should return an role on success', async () => {
       const sut = makeSut();
-      const addRoleParams = mockRoleParams();
+      const addRoleParams = mockRoleModel();
       const isValid = await sut.add(addRoleParams);
       expect(isValid).toBe(true);
     });
@@ -35,7 +35,7 @@ describe('RoleMongoRepository', () => {
   describe('checkByEmail()', () => {
     test('Should return true if email is valid', async () => {
       const sut = makeSut();
-      const addRoleParams = mockRoleParams();
+      const addRoleParams = mockRoleModel();
       await roleCollection.insertOne(addRoleParams);
       const exists = await sut.checkByDescription(addRoleParams.description);
       expect(exists).toBe(true);
