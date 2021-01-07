@@ -3,10 +3,14 @@ import { ObjectID } from 'mongodb';
 import {
   IAddRoleRepository,
   ICheckRoleByDescriptionRepository,
+  IListRolesRepository,
 } from '@/data/protocols/db';
 
 export class RoleMongoRepository
-  implements IAddRoleRepository, ICheckRoleByDescriptionRepository {
+  implements
+    IAddRoleRepository,
+    ICheckRoleByDescriptionRepository,
+    IListRolesRepository {
   async add(
     data: IAddRoleRepository.Params,
   ): Promise<IAddRoleRepository.Result> {
@@ -33,5 +37,11 @@ export class RoleMongoRepository
       },
     );
     return role !== null;
+  }
+
+  async list(): Promise<IListRolesRepository.Result> {
+    const roleCollection = await MongoHelper.getCollection('roles');
+    const roles = await roleCollection.find({}).toArray();
+    return MongoHelper.mapCollection(roles);
   }
 }

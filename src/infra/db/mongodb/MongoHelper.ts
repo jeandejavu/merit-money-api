@@ -23,4 +23,13 @@ export const MongoHelper = {
     }
     return this.client.db().collection(name);
   },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+  map: (data: any): any => {
+    const { _id, ...rest } = data;
+    return { ...rest, id: _id };
+  },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
+  mapCollection: (collection: any[]): any[] => {
+    return collection.map(c => MongoHelper.map(c));
+  },
 };
