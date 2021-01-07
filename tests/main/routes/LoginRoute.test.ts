@@ -5,10 +5,18 @@ import { Collection } from 'mongodb';
 import request from 'supertest';
 
 let accountCollection: Collection;
-
+let roleCollection: Collection;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let account_role: any;
 describe('Login Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL as string);
+    await request(app).post('/api/roles').send({
+      description: 'any_description',
+    });
+
+    roleCollection = await MongoHelper.getCollection('roles');
+    account_role = MongoHelper.map(await roleCollection.findOne({}));
   });
 
   afterAll(async () => {
@@ -29,6 +37,7 @@ describe('Login Routes', () => {
           email: 'any.mail@mail.com',
           password: '123',
           password_confirmation: '123',
+          account_role,
         })
         .expect(204);
 
@@ -39,6 +48,7 @@ describe('Login Routes', () => {
           email: 'any.mail@mail.com',
           password: '123',
           password_confirmation: '123',
+          account_role,
         })
         .expect(403);
     });
