@@ -13,6 +13,6 @@
 > ## Exceções
 
 1. ⛔️ Retorna erro **401** caso não contenha o token de autenticação
-1. ⛔️ Retorna erro **403** se o usuário não for **admin**
-1. ✅ Retorna erro **400** se description não for fornecido
-1. ✅ Retorna erro **500** se der erro ao tentar criar a função
+2. ⛔️ Retorna erro **403** se o usuário não for **admin**
+3. ✅ Retorna erro **400** se description não for fornecido
+4. ✅ Retorna erro **500** se der erro ao tentar criar a função
