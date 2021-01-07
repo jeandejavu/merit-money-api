@@ -1,9 +1,5 @@
 import { SignUpController } from '@/presentation/controllers';
-import {
-  MissingParamError,
-  ServerError,
-  EmailInUseError,
-} from '@/presentation/errors';
+import { MissingParamError, ServerError } from '@/presentation/errors';
 import {
   serverError,
   badRequest,
@@ -68,7 +64,7 @@ describe('SignUp Controller', () => {
     const { sut, addAccountSpy } = makeSut();
     addAccountSpy.result = false;
     const httpResponse = await sut.handle(mockRequest());
-    expect(httpResponse).toEqual(forbidden(new EmailInUseError()));
+    expect(httpResponse).toEqual(forbidden(new Error('Error add account')));
   });
 
   test('Should call Validation with correct value', async () => {

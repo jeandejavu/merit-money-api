@@ -9,7 +9,7 @@ import {
   noContent,
   forbidden,
 } from '@/presentation/helpers';
-import { CheckFieldError, EmailInUseError } from '@/presentation/errors';
+import { CheckFieldError } from '@/presentation/errors';
 import { IAddAccountUseCase } from '@/domain/usecases';
 import { RoleModel } from '@/domain/models';
 
@@ -33,7 +33,7 @@ export class SignUpController implements IController {
         account_role,
       });
       if (!isValid) {
-        return forbidden(new EmailInUseError());
+        return forbidden(new Error('Error add account'));
       }
       return noContent();
     } catch (error) {
