@@ -9,7 +9,7 @@ import {
   noContent,
   forbidden,
 } from '@/presentation/helpers';
-import { FieldAlreadyExists } from '@/presentation/errors';
+import { FieldAlreadyExistsError } from '@/presentation/errors';
 import { IAddRoleUseCase } from '@/domain/usecases';
 
 export class AddRoleController implements IController {
@@ -29,7 +29,7 @@ export class AddRoleController implements IController {
         description,
       });
       if (!isValid) {
-        return forbidden(new FieldAlreadyExists('description'));
+        return forbidden(new FieldAlreadyExistsError('description'));
       }
       return noContent();
     } catch (error) {

@@ -2,7 +2,7 @@ import { AddRoleController } from '@/presentation/controllers';
 import {
   MissingParamError,
   ServerError,
-  FieldAlreadyExists,
+  FieldAlreadyExistsError,
 } from '@/presentation/errors';
 import {
   serverError,
@@ -60,7 +60,7 @@ describe('AddRole Controller', () => {
     addRoleSpy.result = false;
     const httpResponse = await sut.handle(mockRequest());
     expect(httpResponse).toEqual(
-      forbidden(new FieldAlreadyExists('description')),
+      forbidden(new FieldAlreadyExistsError('description')),
     );
   });
 
