@@ -2,11 +2,15 @@ import { MongoHelper } from '@/infra/db/mongodb';
 import {
   IAddAccountRepository,
   ICheckAccountByEmailRepository,
+  IFindAccountByEmailRepository,
 } from '@/data/protocols/db';
 import { ObjectID } from 'mongodb';
 
 export class AccountMongoRepository
-  implements IAddAccountRepository, ICheckAccountByEmailRepository {
+  implements
+    IAddAccountRepository,
+    ICheckAccountByEmailRepository,
+    IFindAccountByEmailRepository {
   async add(
     data: IAddAccountRepository.Params,
   ): Promise<IAddAccountRepository.Result> {
@@ -36,5 +40,24 @@ export class AccountMongoRepository
       },
     );
     return account !== null;
+  }
+
+  async findByEmail(
+    email: string,
+  ): Promise<IFindAccountByEmailRepository.Result> {
+    const accountCollection = await MongoHelper.getCollection('accounts');
+    const account = await accountCollection.findOne(
+      {
+        email,
+      },
+      {
+        projection: {
+          _id: 1,
+          name: 1,
+          password: 1,
+        },
+      },
+    );
+    return account && MongoHelper.map(account);
   }
 }
