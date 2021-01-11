@@ -1,5 +1,6 @@
 import app from '@/main/config/app';
 import { MongoHelper } from '@/infra/db';
+import { hash } from 'bcrypt';
 import faker from 'faker';
 import { Collection } from 'mongodb';
 import request from 'supertest';
@@ -53,6 +54,33 @@ describe('Login Routes', () => {
           account_role,
         })
         .expect(403);
+    });
+  });
+
+  describe('POST /login', () => {
+    test('Should return 200 on login', async () => {
+      const email = faker.internet.email();
+      const password = `${faker.internet.password()}$`;
+
+      const hashPassword = await hash(password, 12);
+      await accountCollection.insertOne({
+        name: faker.name.findName(),
+        email,
+        password: hashPassword,
+      });
+      await request(app)
+        .post('/api/login')
+        .send({ email, password })
+        .expect(200);
+    });
+
+    test('Should return 401 on login', async () => {
+      const email = faker.internet.email();
+      const password = await hash(`${faker.internet.password()}$`, 12);
+      await request(app)
+        .post('/api/login')
+        .send({ email, password })
+        .expect(401);
     });
   });
 });
