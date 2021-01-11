@@ -47,4 +47,23 @@ describe('AccountMongoRepository', () => {
       expect(exists).toBe(false);
     });
   });
+
+  describe('findByEmail()', () => {
+    test('Should return an account on success', async () => {
+      const sut = makeSut();
+      const addAccountParams = mockAddAccountParams();
+      await accountCollection.insertOne(addAccountParams);
+      const account = await sut.findByEmail(addAccountParams.email);
+      expect(account).toBeTruthy();
+      expect(account?.id).toBeTruthy();
+      expect(account?.name).toBe(addAccountParams.name);
+      expect(account?.password).toBe(addAccountParams.password);
+    });
+
+    test('Should return null if findByEmail fails', async () => {
+      const sut = makeSut();
+      const account = await sut.findByEmail(faker.internet.email());
+      expect(account).toBeFalsy();
+    });
+  });
 });
