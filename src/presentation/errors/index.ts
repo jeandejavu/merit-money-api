@@ -4,3 +4,4 @@ export * from './InvalidParamError';
 export * from './MissingParamError';
 export * from './FieldAlreadyExistsError';
 export * from './InvalidStrongPasswordError';
+export * from './UnauthorizedError';
