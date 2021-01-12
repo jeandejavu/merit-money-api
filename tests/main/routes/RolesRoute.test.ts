@@ -3,6 +3,7 @@ import { MongoHelper } from '@/infra/db';
 
 import { Collection } from 'mongodb';
 import request from 'supertest';
+import { mockAccessToken } from '../mock/AccessToken';
 
 let accountCollection: Collection;
 
@@ -22,8 +23,10 @@ describe('Login Routes', () => {
 
   describe('POST /roles', () => {
     test('Should return 200 on roles and return 403 with role exists', async () => {
+      const accessToken = await mockAccessToken(MongoHelper);
       await request(app)
         .post('/api/roles')
+        .set('x-access-token', accessToken)
         .send({
           description: 'any_description',
         })
@@ -31,10 +34,25 @@ describe('Login Routes', () => {
 
       await request(app)
         .post('/api/roles')
+        .set('x-access-token', accessToken)
         .send({
           description: 'any_description',
         })
         .expect(403);
+    });
+  });
+
+  describe('GET /roles', () => {
+    test('Should return 403 on roles without accessToken', async () => {
+      await request(app).get('/api/roles').expect(403);
+    });
+
+    test('Should return 200 on roles with accessToken', async () => {
+      const accessToken = await mockAccessToken(MongoHelper);
+      await request(app)
+        .get(`/api/roles`)
+        .set('x-access-token', accessToken)
+        .expect(200);
     });
   });
 });
