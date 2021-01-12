@@ -26,6 +26,10 @@ export default {
       name: 'Login',
       description: 'APIs relacionadas a Login',
     },
+    {
+      name: 'Roles',
+      description: 'APIs relacionadas a Funções',
+    },
   ],
   paths,
   components,
