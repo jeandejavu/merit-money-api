@@ -3,10 +3,10 @@ import {
   makeAddRoleController,
   makeListRolesController,
 } from '@/main/factories';
-
+import { auth } from '@/main/middlewares';
 import { Router } from 'express';
 
 export default (router: Router): void => {
-  router.post('/roles', adaptRoute(makeAddRoleController()));
-  router.get('/roles', adaptRoute(makeListRolesController()));
+  router.post('/roles', auth, adaptRoute(makeAddRoleController()));
+  router.get('/roles', auth, adaptRoute(makeListRolesController()));
 };
