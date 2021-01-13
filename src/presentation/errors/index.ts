@@ -6,3 +6,4 @@ export * from './FieldAlreadyExistsError';
 export * from './InvalidStrongPasswordError';
 export * from './UnauthorizedError';
 export * from './AcessDeniedError';
+export * from './ImageTypeError';
