@@ -38,6 +38,7 @@ describe('Login Routes', () => {
       await request(app)
         .post('/api/signup')
         .send({
+          avatar: 'any_image',
           name: 'any_name',
           email: 'any.mail@mail.com',
           password,
@@ -49,6 +50,7 @@ describe('Login Routes', () => {
       await request(app)
         .post('/api/signup')
         .send({
+          avatar: 'any_image',
           name: 'any_name',
           email: 'any.mail@mail.com',
           password,

@@ -22,6 +22,7 @@ describe('SignUpValidation Factory', () => {
       'password',
       'password_confirmation',
       'account_role_id',
+      'avatar',
     ]) {
       validations.push(new RequiredFieldValidator(field));
     }
