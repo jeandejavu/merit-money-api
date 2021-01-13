@@ -6,7 +6,7 @@ import {
   AddAccountRepositorySpy,
   CheckAccountByEmailRepositorySpy,
 } from '../mocks/db/account';
-import { HasherSpy } from '../mocks/cryptography';
+import { HasherSpy, SaveFileSpy } from '../mocks';
 import { CheckRoleByIdRepositorySpy } from '../mocks/db';
 
 type SutTypes = {
@@ -15,6 +15,7 @@ type SutTypes = {
   addAccountRepositorySpy: AddAccountRepositorySpy;
   checkAccountByEmailRepositorySpy: CheckAccountByEmailRepositorySpy;
   checkRoleByIdRepositorySpy: CheckRoleByIdRepositorySpy;
+  saveFileSpy: SaveFileSpy;
 };
 
 const makeSut = (): SutTypes => {
@@ -22,11 +23,13 @@ const makeSut = (): SutTypes => {
   const hasherSpy = new HasherSpy();
   const addAccountRepositorySpy = new AddAccountRepositorySpy();
   const checkRoleByIdRepositorySpy = new CheckRoleByIdRepositorySpy();
+  const saveFileSpy = new SaveFileSpy();
   const sut = new DbAddAccountUseCase(
     hasherSpy,
     addAccountRepositorySpy,
     checkAccountByEmailRepositorySpy,
     checkRoleByIdRepositorySpy,
+    saveFileSpy,
   );
   return {
     sut,
@@ -34,6 +37,7 @@ const makeSut = (): SutTypes => {
     addAccountRepositorySpy,
     checkAccountByEmailRepositorySpy,
     checkRoleByIdRepositorySpy,
+    saveFileSpy,
   };
 };
 
@@ -61,6 +65,7 @@ describe('DbAddAccount Usecase', () => {
       email: addAccountParams.email,
       password: hasherSpy.digest,
       account_role: addAccountParams.account_role,
+      filename: addAccountParams.avatar.filename,
     });
   });
 
@@ -132,5 +137,19 @@ describe('DbAddAccount Usecase', () => {
     expect(checkRoleByIdRepositorySpy.id).toBe(
       addAccountParams.account_role.id,
     );
+  });
+
+  test('Should call SaveFile with correct values', async () => {
+    const { sut, saveFileSpy } = makeSut();
+    const addAccountParams = mockAddAccountParams();
+    await sut.add(addAccountParams);
+    expect(saveFileSpy.params).toEqual(addAccountParams.avatar.filename);
+  });
+
+  test('Should throw if SaveFile throws', async () => {
+    const { sut, saveFileSpy } = makeSut();
+    jest.spyOn(saveFileSpy, 'saveFile').mockImplementationOnce(throwError);
+    const promise = sut.add(mockAddAccountParams());
+    await expect(promise).rejects.toThrow();
   });
 });

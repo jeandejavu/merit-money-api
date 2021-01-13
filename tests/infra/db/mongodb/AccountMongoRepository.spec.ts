@@ -1,5 +1,5 @@
 import { AccountMongoRepository, MongoHelper } from '@/infra/db';
-import { mockAddAccountParams } from '@/tests/domain/mocks';
+import { mockAddAccountRepositoryParams } from '@/tests/domain/mocks';
 import { Collection } from 'mongodb';
 import faker from 'faker';
 
@@ -26,7 +26,7 @@ describe('AccountMongoRepository', () => {
   describe('add()', () => {
     test('Should return an account on success', async () => {
       const sut = makeSut();
-      const addAccountParams = mockAddAccountParams();
+      const addAccountParams = mockAddAccountRepositoryParams();
       const isValid = await sut.add(addAccountParams);
       expect(isValid).toBe(true);
     });
@@ -35,7 +35,7 @@ describe('AccountMongoRepository', () => {
   describe('checkByEmail()', () => {
     test('Should return true if email is valid', async () => {
       const sut = makeSut();
-      const addAccountParams = mockAddAccountParams();
+      const addAccountParams = mockAddAccountRepositoryParams();
       await accountCollection.insertOne(addAccountParams);
       const exists = await sut.checkByEmail(addAccountParams.email);
       expect(exists).toBe(true);
@@ -51,7 +51,7 @@ describe('AccountMongoRepository', () => {
   describe('findByEmail()', () => {
     test('Should return an account on success', async () => {
       const sut = makeSut();
-      const addAccountParams = mockAddAccountParams();
+      const addAccountParams = mockAddAccountRepositoryParams();
       await accountCollection.insertOne(addAccountParams);
       const account = await sut.findByEmail(addAccountParams.email);
       expect(account).toBeTruthy();

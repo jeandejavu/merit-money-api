@@ -1,13 +1,11 @@
 import faker from 'faker';
-import { IAddAccountUseCase } from '@/domain/usecases';
+import { IAddAccountRepository } from '@/data/protocols';
 import { mockRoleModel } from './MockRoleModel';
 
-export const mockAddAccountParams = (): IAddAccountUseCase.Params => ({
+export const mockAddAccountRepositoryParams = (): IAddAccountRepository.Params => ({
   name: faker.name.findName(),
   email: faker.internet.email(),
   password: faker.internet.password(),
   account_role: mockRoleModel(),
-  avatar: {
-    filename: faker.system.fileName('jpg'),
-  },
+  filename: faker.system.fileName('jpg'),
 });
