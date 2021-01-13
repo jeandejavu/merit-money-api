@@ -4,9 +4,11 @@ import {
   CompareFieldsValidator,
   EmailValidator,
   StrongPasswordValidator,
+  ImageTypeValidator,
 } from '@/validation/validators';
 import { IValidation } from '@/presentation/protocols';
 import { EmailValidatorAdapter } from '@/infra/validators';
+import { makeJpegType, makePngType } from '@/validation/helpers/ImageTypes';
 
 export const makeSignUpValidation = (): ValidationComposite => {
   const validations: IValidation[] = [];
@@ -26,5 +28,8 @@ export const makeSignUpValidation = (): ValidationComposite => {
   );
   validations.push(new EmailValidator('email', new EmailValidatorAdapter()));
   validations.push(new StrongPasswordValidator('password'));
+  validations.push(
+    new ImageTypeValidator('avatar', [makeJpegType(), makePngType()]),
+  );
   return new ValidationComposite(validations);
 };
