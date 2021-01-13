@@ -1,4 +1,5 @@
 import app from '@/main/config/app';
+import path from 'path';
 import { MongoHelper } from '@/infra/db';
 import { hash } from 'bcrypt';
 import faker from 'faker';
@@ -35,28 +36,32 @@ describe('Login Routes', () => {
         description: addRoleParams.description,
       });
 
+      const avatarPath = path.resolve(
+        __dirname,
+        '..',
+        '..',
+        'images',
+        'perfil.jpg',
+      );
+
       await request(app)
         .post('/api/signup')
-        .send({
-          avatar: 'any_image',
-          name: 'any_name',
-          email: 'any.mail@mail.com',
-          password,
-          password_confirmation: password,
-          account_role_id: addRoleParams.id,
-        })
+        .attach('avatar', avatarPath)
+        .field('name', 'any_name')
+        .field('email', 'any.mail@mail.com')
+        .field('password', password)
+        .field('password_confirmation', password)
+        .field('account_role_id', addRoleParams.id)
         .expect(204);
 
       await request(app)
         .post('/api/signup')
-        .send({
-          avatar: 'any_image',
-          name: 'any_name',
-          email: 'any.mail@mail.com',
-          password,
-          password_confirmation: password,
-          account_role_id: addRoleParams.id,
-        })
+        .attach('avatar', avatarPath)
+        .field('name', 'any_name')
+        .field('email', 'any.mail@mail.com')
+        .field('password', password)
+        .field('password_confirmation', password)
+        .field('account_role_id', addRoleParams.id)
         .expect(403);
     });
   });

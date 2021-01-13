@@ -5,9 +5,11 @@ import {
   CompareFieldsValidator,
   EmailValidator,
   StrongPasswordValidator,
+  ImageTypeValidator,
 } from '@/validation/validators';
 import { IValidation } from '@/presentation/protocols';
 import { EmailValidatorAdapter } from '@/infra/validators';
+import { makeJpegType, makePngType } from '@/validation/helpers/ImageTypes';
 
 jest.mock('@/validation/validators/ValidationComposite');
 
@@ -31,6 +33,9 @@ describe('SignUpValidation Factory', () => {
     );
     validations.push(new EmailValidator('email', new EmailValidatorAdapter()));
     validations.push(new StrongPasswordValidator('password'));
+    validations.push(
+      new ImageTypeValidator('avatar', [makeJpegType(), makePngType()]),
+    );
     expect(ValidationComposite).toHaveBeenCalledWith(validations);
   });
 });
