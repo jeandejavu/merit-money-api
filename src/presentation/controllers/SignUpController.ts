@@ -25,7 +25,7 @@ export class SignUpController implements IController {
       if (error instanceof Error) {
         return badRequest(error);
       }
-      const { name, email, password, account_role_id } = request;
+      const { name, email, password, account_role_id, avatar } = request;
       const isValid = await this.addAccount.add({
         name,
         email,
@@ -33,6 +33,7 @@ export class SignUpController implements IController {
         account_role: {
           id: account_role_id,
         } as RoleModel,
+        avatar,
       });
       if (!isValid) {
         return forbidden(new Error('Error add account'));
@@ -48,6 +49,7 @@ export class SignUpController implements IController {
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace SignUpController {
   export type Request = {
+    avatar: { filename: string };
     name: string;
     email: string;
     password: string;

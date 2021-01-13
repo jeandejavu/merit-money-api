@@ -4,6 +4,7 @@ import {
   IAddAccountRepository,
   ICheckAccountByEmailRepository,
   ICheckRoleByIdRepository,
+  ISaveFile,
 } from '@/data/protocols';
 import { EmailInUseError, ModelNotExists } from '@/domain/errors';
 
@@ -13,6 +14,7 @@ export class DbAddAccountUseCase implements IAddAccountUseCase {
     private readonly AddAccountUseCaseRepository: IAddAccountRepository,
     private readonly checkAccountByEmailRepository: ICheckAccountByEmailRepository,
     private readonly checkRoleByIdRepository: ICheckRoleByIdRepository,
+    private readonly saveFile: ISaveFile,
   ) {}
 
   async add(
@@ -28,10 +30,14 @@ export class DbAddAccountUseCase implements IAddAccountUseCase {
     );
     if (!roleExist) throw new ModelNotExists('account_role');
 
+    const { avatar, ...restData } = accountData;
+    const filename = await this.saveFile.saveFile(avatar.filename);
+
     const hashedPassword = await this.hasher.hash(accountData.password);
     return this.AddAccountUseCaseRepository.add({
-      ...accountData,
+      ...restData,
       password: hashedPassword,
+      filename,
     });
   }
 }

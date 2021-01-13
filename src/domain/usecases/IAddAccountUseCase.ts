@@ -13,6 +13,9 @@ export namespace IAddAccountUseCase {
     email: string;
     password: string;
     account_role: RoleModel;
+    avatar: {
+      filename: string;
+    };
   };
 
   export type Result = boolean;
