@@ -19,7 +19,7 @@ const mockRequest = (): SignUpController.Request => {
     email: faker.internet.email(),
     password,
     password_confirmation: password,
-    account_role: mockRoleModel(),
+    account_role_id: mockRoleModel().id,
   };
 };
 
@@ -56,7 +56,9 @@ describe('SignUp Controller', () => {
       name: request.name,
       email: request.email,
       password: request.password,
-      account_role: request.account_role,
+      account_role: {
+        id: request.account_role_id,
+      },
     });
   });
 

@@ -2,22 +2,20 @@ import app from '@/main/config/app';
 import { MongoHelper } from '@/infra/db';
 import { hash } from 'bcrypt';
 import faker from 'faker';
-import { Collection } from 'mongodb';
+import { Collection, ObjectID } from 'mongodb';
 import request from 'supertest';
+import { mockRoleModel } from '@/tests/domain/mocks';
+import { RoleModel } from '@/domain/models';
 
 let accountCollection: Collection;
 let roleCollection: Collection;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let account_role: any;
+let addRoleParams: RoleModel;
 describe('Login Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(process.env.MONGO_URL as string);
-    await request(app).post('/api/roles').send({
-      description: 'any_description',
-    });
-
     roleCollection = await MongoHelper.getCollection('roles');
-    account_role = MongoHelper.map(await roleCollection.findOne({}));
+
+    addRoleParams = mockRoleModel();
   });
 
   afterAll(async () => {
@@ -32,6 +30,10 @@ describe('Login Routes', () => {
   describe('POST /signup', () => {
     test('Should return 200 on signup and return 403 with account exists', async () => {
       const password = `${faker.internet.password()}$`;
+      await roleCollection.insertOne({
+        _id: new ObjectID(addRoleParams.id),
+        description: addRoleParams.description,
+      });
 
       await request(app)
         .post('/api/signup')
@@ -40,7 +42,7 @@ describe('Login Routes', () => {
           email: 'any.mail@mail.com',
           password,
           password_confirmation: password,
-          account_role,
+          account_role_id: addRoleParams.id,
         })
         .expect(204);
 
@@ -51,7 +53,7 @@ describe('Login Routes', () => {
           email: 'any.mail@mail.com',
           password,
           password_confirmation: password,
-          account_role,
+          account_role_id: addRoleParams.id,
         })
         .expect(403);
     });
