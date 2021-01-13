@@ -6,3 +6,4 @@ globalConfig.json
 data
 !src/data
 !tests/data
+tmp
