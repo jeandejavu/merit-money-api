@@ -25,12 +25,14 @@ export class SignUpController implements IController {
       if (error instanceof Error) {
         return badRequest(error);
       }
-      const { name, email, password, account_role } = request;
+      const { name, email, password, account_role_id } = request;
       const isValid = await this.addAccount.add({
         name,
         email,
         password,
-        account_role,
+        account_role: {
+          id: account_role_id,
+        } as RoleModel,
       });
       if (!isValid) {
         return forbidden(new Error('Error add account'));
@@ -50,6 +52,6 @@ export namespace SignUpController {
     email: string;
     password: string;
     password_confirmation: string;
-    account_role: RoleModel;
+    account_role_id: string;
   };
 }

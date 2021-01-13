@@ -16,7 +16,7 @@ export const makeSignUpValidation = (): ValidationComposite => {
     'email',
     'password',
     'password_confirmation',
-    'account_role',
+    'account_role_id',
   ]) {
     validations.push(new RequiredFieldValidator(field));
   }
