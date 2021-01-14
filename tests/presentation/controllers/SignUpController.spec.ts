@@ -20,6 +20,9 @@ const mockRequest = (): SignUpController.Request => {
     password,
     password_confirmation: password,
     account_role_id: mockRoleModel().id,
+    avatar: {
+      filename: faker.system.fileName('jpg'),
+    },
   };
 };
 
@@ -58,6 +61,9 @@ describe('SignUp Controller', () => {
       password: request.password,
       account_role: {
         id: request.account_role_id,
+      },
+      avatar: {
+        filename: request.avatar.filename,
       },
     });
   });
