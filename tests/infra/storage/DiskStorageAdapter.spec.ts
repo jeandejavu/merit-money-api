@@ -20,9 +20,10 @@ jest.mock('fs', () => ({
 
 const tmpFolder = faker.system.filePath();
 const uploadsFolder = faker.system.filePath();
+const staticFolter = faker.system.filePath();
 const fileName = faker.system.fileName('jpge');
 const makeSut = (): DiskStorageAdapter => {
-  return new DiskStorageAdapter(tmpFolder, uploadsFolder);
+  return new DiskStorageAdapter(tmpFolder, uploadsFolder, staticFolter);
 };
 
 describe('DiskStorage Adapter', () => {
@@ -42,6 +43,20 @@ describe('DiskStorage Adapter', () => {
       jest.spyOn(fs.promises, 'rename').mockImplementationOnce(throwError);
       const promise = sut.saveFile(fileName);
       await expect(promise).rejects.toThrow();
+    });
+  });
+
+  describe('pathFile()', () => {
+    test('Should return valid filePath with correct values', async () => {
+      const sut = makeSut();
+      const filePath = await sut.pathFile(fileName);
+      expect(filePath).toBe(path.resolve(staticFolter, fileName));
+    });
+
+    test('Should return empty filePath with filename is undefined', async () => {
+      const sut = makeSut();
+      const filePath = await sut.pathFile((undefined as unknown) as string);
+      expect(filePath).toBe('');
     });
   });
 });

@@ -9,6 +9,7 @@ export class FindAccountByEmailRepositorySpy
     id: faker.random.uuid(),
     name: faker.name.findName(),
     password: faker.internet.password(),
+    avatar: faker.system.filePath(),
   };
 
   async findByEmail(

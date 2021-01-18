@@ -76,6 +76,7 @@ describe('Login Routes', () => {
         name: faker.name.findName(),
         email,
         password: hashPassword,
+        avatar: faker.system.fileName(),
       });
       await request(app)
         .post('/api/login')

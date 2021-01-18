@@ -7,5 +7,5 @@ export const mockAddAccountRepositoryParams = (): IAddAccountRepository.Params =
   email: faker.internet.email(),
   password: faker.internet.password(),
   account_role: mockRoleModel(),
-  filename: faker.system.fileName('jpg'),
+  avatar: faker.system.fileName('jpg'),
 });

@@ -4,6 +4,7 @@ import {
   HashComparerSpy,
   EncrypterSpy,
   FindAccountByEmailRepositorySpy,
+  PathFileSpy,
 } from '@/tests/data/mocks';
 
 import { mockAuthenticationParams } from '@/tests/domain/mocks';
@@ -14,22 +15,26 @@ type SutTypes = {
   findAccountByEmailRepositorySpy: FindAccountByEmailRepositorySpy;
   hashComparerSpy: HashComparerSpy;
   encrypterSpy: EncrypterSpy;
+  pathFileSpy: PathFileSpy;
 };
 
 const makeSut = (): SutTypes => {
   const findAccountByEmailRepositorySpy = new FindAccountByEmailRepositorySpy();
   const hashComparerSpy = new HashComparerSpy();
   const encrypterSpy = new EncrypterSpy();
+  const pathFileSpy = new PathFileSpy();
   const sut = new DbAuthentication(
     findAccountByEmailRepositorySpy,
     hashComparerSpy,
     encrypterSpy,
+    pathFileSpy,
   );
   return {
     sut,
     findAccountByEmailRepositorySpy,
     hashComparerSpy,
     encrypterSpy,
+    pathFileSpy,
   };
 };
 
@@ -94,6 +99,21 @@ describe('DbAuthentication UseCase', () => {
   test('Should throw if Encrypter throws', async () => {
     const { sut, encrypterSpy } = makeSut();
     jest.spyOn(encrypterSpy, 'encrypt').mockImplementationOnce(throwError);
+    const promise = sut.auth(mockAuthenticationParams());
+    await expect(promise).rejects.toThrow();
+  });
+
+  test('Should call PathFile with correct file', async () => {
+    const { sut, pathFileSpy, findAccountByEmailRepositorySpy } = makeSut();
+    await sut.auth(mockAuthenticationParams());
+    expect(pathFileSpy.params).toBe(
+      findAccountByEmailRepositorySpy.result?.avatar,
+    );
+  });
+
+  test('Should throw if PathFile throws', async () => {
+    const { sut, pathFileSpy } = makeSut();
+    jest.spyOn(pathFileSpy, 'pathFile').mockImplementationOnce(throwError);
     const promise = sut.auth(mockAuthenticationParams());
     await expect(promise).rejects.toThrow();
   });

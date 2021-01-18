@@ -65,7 +65,7 @@ describe('DbAddAccount Usecase', () => {
       email: addAccountParams.email,
       password: hasherSpy.digest,
       account_role: addAccountParams.account_role,
-      filename: addAccountParams.avatar.filename,
+      avatar: addAccountParams.avatar.filename,
     });
   });
 
