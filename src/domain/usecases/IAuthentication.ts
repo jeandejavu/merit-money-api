@@ -14,5 +14,6 @@ export namespace IAuthentication {
   export type Result = {
     accessToken: string;
     name: string;
+    avatar: string;
   };
 }

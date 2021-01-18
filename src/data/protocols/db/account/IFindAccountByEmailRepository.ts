@@ -8,6 +8,7 @@ export namespace IFindAccountByEmailRepository {
         id: string;
         name: string;
         password: string;
+        avatar: string;
       }
     | undefined;
 }

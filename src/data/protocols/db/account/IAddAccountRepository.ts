@@ -13,7 +13,7 @@ export namespace IAddAccountRepository {
     email: string;
     password: string;
     account_role: RoleModel;
-    filename: string;
+    avatar: string;
   };
   export type Result = boolean;
 }

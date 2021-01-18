@@ -1,11 +1,12 @@
-import { ISaveFile } from '@/data/protocols';
+import { IPathFile, ISaveFile } from '@/data/protocols';
 import fs from 'fs';
 import path from 'path';
 
-export class DiskStorageAdapter implements ISaveFile {
+export class DiskStorageAdapter implements ISaveFile, IPathFile {
   constructor(
     private readonly tmpFolder: string,
     private readonly uploadsFolder: string,
+    private readonly staticFolder: string,
   ) {}
 
   public async saveFile(file: string): Promise<string> {
@@ -15,5 +16,10 @@ export class DiskStorageAdapter implements ISaveFile {
     );
 
     return file;
+  }
+
+  public async pathFile(file: string): Promise<string> {
+    if (!file) return '';
+    return path.resolve(this.staticFolder, file);
   }
 }

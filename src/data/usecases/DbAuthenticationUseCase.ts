@@ -3,6 +3,7 @@ import {
   IHashComparer,
   IEncrypter,
   IFindAccountByEmailRepository,
+  IPathFile,
 } from '@/data/protocols';
 import { InvalidAuthenticationError } from '@/domain/errors';
 
@@ -11,6 +12,7 @@ export class DbAuthentication implements IAuthentication {
     private readonly findAccountByEmailRepository: IFindAccountByEmailRepository,
     private readonly hashComparer: IHashComparer,
     private readonly encrypter: IEncrypter,
+    private readonly pathFile: IPathFile,
   ) {}
 
   async auth(
@@ -28,10 +30,13 @@ export class DbAuthentication implements IAuthentication {
 
     if (!isValid) throw new InvalidAuthenticationError();
 
+    const avatar = await this.pathFile.pathFile(account.avatar);
+
     const accessToken = await this.encrypter.encrypt(account.id);
     return {
       accessToken,
       name: account.name,
+      avatar,
     };
   }
 }

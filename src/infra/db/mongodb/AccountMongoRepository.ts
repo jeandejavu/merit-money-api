@@ -55,6 +55,7 @@ export class AccountMongoRepository
           _id: 1,
           name: 1,
           password: 1,
+          avatar: 1,
         },
       },
     );

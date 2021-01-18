@@ -37,7 +37,7 @@ export class DbAddAccountUseCase implements IAddAccountUseCase {
     return this.AddAccountUseCaseRepository.add({
       ...restData,
       password: hashedPassword,
-      filename,
+      avatar: filename,
     });
   }
 }
