@@ -7,7 +7,7 @@
 3. ✅ Valida que o campo **email** é um e-mail válido
 4. ✅ **Busca** o usuário com o email e senha fornecidos
 5. ✅ Gera um **token** de acesso a partir do ID do usuário
-6. ✅ Retorna **200** com o token de acesso e o nome do usuário
+6. ✅ Retorna **200** com o token de acesso, nome do usuário e avatar
 
 > ## Exceções
 
