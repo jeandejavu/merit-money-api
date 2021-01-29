@@ -63,7 +63,7 @@ describe('Login Routes', () => {
         .field('password_confirmation', password)
         .field('account_role_id', addRoleParams.id)
         .expect(403);
-    });
+    }, 20000);
   });
 
   describe('POST /login', () => {

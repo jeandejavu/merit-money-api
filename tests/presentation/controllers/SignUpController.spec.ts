@@ -6,6 +6,7 @@ import {
   forbidden,
   noContent,
 } from '@/presentation/helpers';
+import { SendMailSpy } from '@/tests/data/mocks/mail/SendMailSpy';
 import { mockRoleModel } from '@/tests/domain/mocks';
 import { ValidationSpy, AddAccountSpy } from '@/tests/presentation/mocks';
 import { throwError } from '@/tests/utils';
@@ -30,16 +31,19 @@ type SutTypes = {
   sut: SignUpController;
   addAccountSpy: AddAccountSpy;
   validationSpy: ValidationSpy;
+  sendMailSpy: SendMailSpy;
 };
 
 const makeSut = (): SutTypes => {
   const addAccountSpy = new AddAccountSpy();
   const validationSpy = new ValidationSpy();
-  const sut = new SignUpController(addAccountSpy, validationSpy);
+  const sendMailSpy = new SendMailSpy();
+  const sut = new SignUpController(addAccountSpy, validationSpy, sendMailSpy);
   return {
     sut,
     addAccountSpy,
     validationSpy,
+    sendMailSpy,
   };
 };
 
@@ -87,6 +91,21 @@ describe('SignUp Controller', () => {
     validationSpy.error = new MissingParamError(faker.random.word());
     const httpResponse = await sut.handle(mockRequest());
     expect(httpResponse).toEqual(badRequest(validationSpy.error));
+  });
+
+  test('Should call SendMail with correct value', async () => {
+    const { sut, sendMailSpy } = makeSut();
+    const request = mockRequest();
+    await sut.handle(request);
+    expect(sendMailSpy.data.to.email).toEqual(request.email);
+    expect(sendMailSpy.data.to.name).toEqual(request.name);
+  });
+
+  test('Should return 400 if SendMail returns an error', async () => {
+    const { sut, sendMailSpy } = makeSut();
+    jest.spyOn(sendMailSpy, 'sendMail').mockImplementationOnce(throwError);
+    const httpResponse = await sut.handle(mockRequest());
+    expect(httpResponse).toEqual(serverError(new ServerError(undefined)));
   });
 
   test('Should return 200 if valid data is provided', async () => {

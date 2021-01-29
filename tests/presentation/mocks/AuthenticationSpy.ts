@@ -4,9 +4,10 @@ import faker from 'faker';
 export class AuthenticationSpy implements IAuthentication {
   params: IAuthentication.Params;
 
-  result = {
+  result: IAuthentication.Result = {
     accessToken: faker.random.uuid(),
     name: faker.name.findName(),
+    avatar: faker.image.imageUrl(),
   };
 
   async auth(params: IAuthentication.Params): Promise<IAuthentication.Result> {

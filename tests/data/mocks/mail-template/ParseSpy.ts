@@ -1,4 +1,5 @@
-import { IParse, ITemplateVariables } from '@/data/protocols';
+import { IParse } from '@/data/protocols';
+import { ITemplateVariables } from '@/domain/models';
 import faker from 'faker';
 
 export class ParseSpy implements IParse {
