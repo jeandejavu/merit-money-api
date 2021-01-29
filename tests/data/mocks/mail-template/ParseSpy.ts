@@ -10,6 +10,6 @@ export class ParseSpy implements IParse {
   async parse({ file, variables }: IParse.Params): Promise<IParse.Result> {
     this.file = file;
     this.variables = variables;
-    return '';
+    return faker.random.alpha();
   }
 }
