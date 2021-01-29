@@ -12,11 +12,14 @@ import {
 import { CheckFieldError } from '@/presentation/errors';
 import { IAddAccountUseCase } from '@/domain/usecases';
 import { RoleModel } from '@/domain/models';
+import { ISendMail } from '@/data/protocols';
+import path from 'path';
 
 export class SignUpController implements IController {
   constructor(
     private readonly addAccount: IAddAccountUseCase,
     private readonly validation: IValidation,
+    private readonly sendMail: ISendMail,
   ) {}
 
   async handle(request: SignUpController.Request): Promise<IHttpResponse> {
@@ -38,6 +41,28 @@ export class SignUpController implements IController {
       if (!isValid) {
         return forbidden(new Error('Error add account'));
       }
+
+      const signUpTemplate = path.resolve(
+        __dirname,
+        '..',
+        'mails',
+        'sign-up.hbs',
+      );
+
+      await this.sendMail.sendMail({
+        to: {
+          email,
+          name,
+        },
+        subject: '[Merit-Money] Bem vindo',
+        templateData: {
+          file: signUpTemplate,
+          variables: {
+            name,
+          },
+        },
+      });
+
       return noContent();
     } catch (error) {
       if (error instanceof CheckFieldError) return forbidden(error);
