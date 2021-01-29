@@ -1,6 +1,9 @@
 export const signUpParamsSchema = {
   type: 'object',
   properties: {
+    avatar: {
+      type: 'file',
+    },
     name: {
       type: 'string',
     },
@@ -13,6 +16,16 @@ export const signUpParamsSchema = {
     password_confirmation: {
       type: 'string',
     },
+    account_role_id: {
+      type: 'string',
+    },
   },
-  required: ['name', 'email', 'password', 'password_confirmation'],
+  required: [
+    'avatar',
+    'name',
+    'email',
+    'password',
+    'password_confirmation',
+    'account_role_id',
+  ],
 };

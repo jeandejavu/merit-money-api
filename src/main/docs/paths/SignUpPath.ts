@@ -6,7 +6,7 @@ export const signUpPath = {
     requestBody: {
       required: true,
       content: {
-        'application/json': {
+        'multipart/form-data': {
           schema: {
             $ref: '#/schemas/signUpParams',
           },
