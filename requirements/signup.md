@@ -13,7 +13,7 @@
 8. ✅ Gera uma senha **criptografada** (essa senha não pode ser descriptografada)
 9. ✅ **Cria** uma conta para o usuário com os dados informados, **substituindo** a senha pela senha criptografada
 10. ✅ **Cria** uma conta para o usuário com os dados informados, **substituindo** a senha pela senha criptografada
-11. ⛔️ **Envia um email** informando cadastro realizado com sucesso aguardar liberação
+11. ✅ **Envia um email** informando cadastro realizado com sucesso aguardar liberação
 12. ✅ Retorna **204**
 
 > ## Exceções
