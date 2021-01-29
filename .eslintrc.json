@@ -16,7 +16,8 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "prettier"
+    "prettier",
+    "hbs"
   ],
   "rules": {
     "no-underscore-dangle": "off",
